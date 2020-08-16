@@ -10,21 +10,22 @@ public class TicTacToe {
     public static final int X = 1, O = -1;
     public static final int EMPTY = 0;
     public int player = 0;
+    public int playerX = 1;
+    public int playerO = 0;
 
     String firstPlayerName = null;
     String secondPlayerName = null;
 
     public void StartOrInfoOrExit() throws InterruptedException, IOException {
-        System.out.println();
-        System.out.println("Tic Tac Toe game :)\n");
-        Thread.sleep(1500);
-        System.out.println("Hello there!, Do you want to start the game, the game info or exit the game?");
+        gameName();
+        Thread.sleep(1200);
         System.out.print("Please, write (start) or (info) or (exit): ");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.next();
 
         if (input.equalsIgnoreCase("info")) {
             info();
+            startOrExitFromInfo();
         } else if (input.equalsIgnoreCase("start")) {
             start();
         } else if (input.equalsIgnoreCase("exit")) {
@@ -35,15 +36,39 @@ public class TicTacToe {
             StartOrInfoOrExit();
         }
     }
-    public void info(){
+
+    public void startOrExitFromInfo() throws IOException, InterruptedException {
+        System.out.print("\nPlease, write (start) or (exit): ");
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.next();
+        if (input.equalsIgnoreCase("start")) {
+            clearScreen();
+            gameName();
+            start();
+        } else if (input.equalsIgnoreCase("exit")) {
+            exitFromTheWholeProject();
+
+        } else {
+            System.out.println("Invalid input!");
+            clearScreen();
+            gameName();
+            info();
+            startOrExitFromInfo();
+        }
+    }
+
+    public void gameName() {
         System.out.println();
+        System.out.println("                                            TicTacToe game\n");
+    }
+
+    public void info(){
         System.out.println("..................................................................................................................\n" +
-                "Tic Tac Toe Infos:\n\n"
-                + "1- Tic-tac-toe or Xs and Os is a game for two players.\n" +
+                "1- Tic-tac-toe or Xs and Os is a game for two players.\n" +
                 "\n" +
                 "2- Players turn to mark X or O, in a 3*3 grid (9 cells). \n" +
                 "\n" +
-                "3- The game board like the following examples, and the player of X or O has to enter the cell number to fill it.\n");
+                "3- The game board like the following examples, the player of X or O has to enter the cell number to fill it.\n");
         System.out.println("  1  |  2  |  3  \t  O  |  X  |  O  ");
         System.out.println("-----+-----+-----\t-----+-----+-----");
         System.out.println("  4  |  5  |     \t  X  |  O  |     ");
@@ -57,7 +82,7 @@ public class TicTacToe {
     }
 
     public void clearScreen() throws InterruptedException, IOException {
-        //System.out.println("Ahmed (X) vs (O) Mostafa ");
+        //System.out.println("           TicTacToe game\n");
         Thread.sleep(1000);
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     }
@@ -69,23 +94,22 @@ public class TicTacToe {
     }
 
     public void start() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println();
-        System.out.print("First player, please enter your first name : ");
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("player [X] please enter your first name : ");
 
         firstPlayerName = scanner.nextLine().trim();
         while (!firstPlayerName.matches("[a-zA-z]+")) {
             System.out.print("Invalid name!\n");
-            System.out.print("First player, please retype your first name : ");
+            System.out.print("player [X] please retype your first name : ");
             firstPlayerName = scanner.nextLine().trim();
         }
-        System.out.println();
 
-        System.out.print("Second player, please enter your first name : ");
+        System.out.print("player [O] please enter your first name : ");
         secondPlayerName = scanner.nextLine().trim();
         while (!secondPlayerName.matches("[a-zA-z]+")) {
             System.out.print("Invalid name!\n");
-            System.out.print("Second player, please retype your first name : ");
+            System.out.print("player [O] please retype your first name : ");
             secondPlayerName = scanner.nextLine().trim();
         }
         System.out.println();
@@ -95,26 +119,7 @@ public class TicTacToe {
         //setXOrO();
     }
 
-    public void setXOrO() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.printf("%s!, you love (X) or (O) : ", firstPlayerName);
-        String xOrO = scanner.next();
-        //System.out.print("\n");
-        int xO;
-        if (xOrO.equalsIgnoreCase("x") || xOrO.equalsIgnoreCase("o")) {
-            if (xOrO.equalsIgnoreCase("x")) {
-                xO = 1;
-                playerXorO(xO);
-            } else if (xOrO.equalsIgnoreCase("o")) {
-                xO = -1;
-                playerXorO(xO);
-            }
-        } else {
-            //System.out.println(" :( ");
-            System.out.println("Sorry!, you can only enter values like (x, X, o, O), please try again :)\n\n");
-            setXOrO();
-        }
-    }
+
 
 
     public void playerXorO(int num) {
@@ -203,3 +208,29 @@ public class TicTacToe {
     }
 
 }
+
+
+
+
+/*
+public void setXOrO() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.printf("%s!, you love (X) or (O) : ", firstPlayerName);
+        String xOrO = scanner.next();
+        //System.out.print("\n");
+        int xO;
+        if (xOrO.equalsIgnoreCase("x") || xOrO.equalsIgnoreCase("o")) {
+            if (xOrO.equalsIgnoreCase("x")) {
+                xO = 1;
+                playerXorO(xO);
+            } else if (xOrO.equalsIgnoreCase("o")) {
+                xO = -1;
+                playerXorO(xO);
+            }
+        } else {
+            //System.out.println(" :( ");
+            System.out.println("Sorry!, you can only enter values like (x, X, o, O), please try again :)\n\n");
+            setXOrO();
+        }
+    }
+ */
