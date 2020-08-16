@@ -3,7 +3,7 @@
 
 
 2- Run the App from the cmd as a jar file
--> java -cp target/TicTacToe-1.0-SNAPSHOT.jar Ahmed.Elsawi.App
+-> java -cp target/Elsawi-TicTacToe-1.0-SNAPSHOT.jar Ahmed.Elsawi.App
 
 
 ##############################
