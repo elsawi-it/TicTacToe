@@ -71,26 +71,7 @@ public class TicTacToe {
         printGrid();
     }
 
-    public void info() {
-        System.out.println();
-        System.out.println("..................................................................................................................\n" +
-                "1- Tic-tac-toe or Xs and Os is a game for two players.\n" +
-                "\n" +
-                "2- Players turn to mark X or O, in a 3*3 grid (9 cells). \n" +
-                "\n" +
-                "3- The game board like the following examples, the player of X or O has to enter the cell number to fill it.\n");
-        System.out.println("  1  |  2  |  3  \t  O  |  X  |  O  ");
-        System.out.println("-----+-----+-----\t-----+-----+-----");
-        System.out.println("  4  |  5  |  6  \t  X  |  O  |     ");
-        System.out.println("-----+-----+-----\t-----+-----+-----");
-        System.out.println("  7  |  8  |  9  \t     |  X  |  O  " + "\n");
-        System.out.println("                 \t [O] player Win.\n");
 
-
-        System.out.println("4- The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row is the winner.\n" +
-                "....................................................................................................................");
-        System.out.println();
-    }
 
     public void StartOrInfoOrExit() throws InterruptedException, IOException {
         clearScreen();
@@ -115,13 +96,46 @@ public class TicTacToe {
         }
     }
 
+    public void start() throws IOException, InterruptedException {
+        clearScreen();
+        gameName();
+        System.out.print("[start]\n");
+
+        firstPlayerInputName();
+        secondPlayerInputName();
+
+        System.out.println();
+        rest();
+        firstPlayerInput();
+    }
+
+    public void info() {
+        System.out.println();
+        System.out.println("..................................................................................................................\n" +
+                "1- Tic-tac-toe or Xs and Os is a game for two players.\n" +
+                "\n" +
+                "2- Players turn to mark X or O, in a 3*3 grid (9 cells). \n" +
+                "\n" +
+                "3- The game board like the following examples, the player of X or O has to enter the cell number to fill it.\n");
+        System.out.println("  1  |  2  |  3  \t  O  |  X  |  O  ");
+        System.out.println("-----+-----+-----\t-----+-----+-----");
+        System.out.println("  4  |  5  |  6  \t  X  |  O  |     ");
+        System.out.println("-----+-----+-----\t-----+-----+-----");
+        System.out.println("  7  |  8  |  9  \t     |  X  |  O  " + "\n");
+        System.out.println("                 \t [O] player Win.\n");
+
+
+        System.out.println("4- The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row is the winner.\n" +
+                "....................................................................................................................");
+        System.out.println();
+    }
+
     public void startOrExitFromInfo() throws IOException, InterruptedException {
 
         System.out.print("\nPlease, write (start) or (exit): ");
-
         Scanner scanner = new Scanner(System.in);
-
         String input = scanner.next();
+
         if (input.equalsIgnoreCase("start")) {
             clearScreen();
             gameName();
@@ -132,14 +146,13 @@ public class TicTacToe {
             invalid("input");
             clearScreen();
             gameName();
+            System.out.print("[info]\n");
             info();
             startOrExitFromInfo();
         }
     }
 
 
-    // make method for the first and second name!
-    // to stop duplicated
     public void firstPlayerInputName() throws InterruptedException, IOException {
         System.out.println();
         Scanner scanner = new Scanner(System.in);
@@ -163,40 +176,30 @@ public class TicTacToe {
     }
 
     public void secondPlayerInputName() throws IOException, InterruptedException {
-
-        //start();
-    }
-
-    public void start() throws IOException, InterruptedException {
-        //System.out.println();
+        System.out.println();
         Scanner scanner = new Scanner(System.in);
-
-        firstPlayerInputName();
-        secondPlayerInputName();
-
-
-
-        // second player input name
         System.out.print("player [O] first name : ");
         secondPlayerName = scanner.nextLine().trim();
+
         if (secondPlayerName.length() > 20) {
             invalid("length or input");
             clearScreen();
             gameName();
-            start();
+            System.out.print("[start]\n\n");
+            System.out.print("player [X] first name : " + firstPlayerName + "\n");
+            secondPlayerInputName();
         }
         while (!secondPlayerName.matches("[a-zA-z]+")) {
             invalid("name");
             clearScreen();
             gameName();
-            start();
-            secondPlayerName = scanner.nextLine().trim();
+            System.out.print("[start]\n\n");
+            System.out.print("player [X] first name : " + firstPlayerName + "\n");
+            secondPlayerInputName();
         }
 
-        System.out.println();
-        rest();
-        firstPlayerInput();
     }
+
 
     public void firstPlayerInput() throws IOException, InterruptedException {
 
@@ -207,7 +210,7 @@ public class TicTacToe {
         System.out.print(firstPlayerName.toUpperCase() + " [X] : ");
         String stringXNumber = scanner.next();
 
-        int xNumber = -1;
+        int xNumber;
 
         if (stringXNumber.matches("[1-9]")) {
             xNumber = Integer.parseInt(stringXNumber);
@@ -220,8 +223,10 @@ public class TicTacToe {
                 if (xWin()) {
                     rest();
                     System.out.println(firstPlayerName.toUpperCase() + " [X] Win!");
+                    againOrExit();
                 } else if (tie() == 9) {
                     System.out.println("Tie!");
+                    againOrExit();
                 }else {
                     secondPlayerInput();
                 }
@@ -249,7 +254,7 @@ public class TicTacToe {
         System.out.print(secondPlayerName.toUpperCase() + " [O] : ");
 
         String stringONumber = scanner.next();
-        int oNumber = -1;
+        int oNumber;
 
         if (stringONumber.matches("[1-9]")) {
             oNumber = Integer.parseInt(stringONumber);
@@ -261,8 +266,10 @@ public class TicTacToe {
                 if (oWin()) {
                     rest();
                     System.out.println(secondPlayerName.toUpperCase() + " [O] Win!");
+                    againOrExit();
                 } else if (tie() == 9) {
                     System.out.println("Tie!");
+                    againOrExit();
                 } else {
                     firstPlayerInput();
                 }
@@ -280,7 +287,36 @@ public class TicTacToe {
     }
 
 
+    public void againOrExit() throws InterruptedException, IOException {
+        System.out.println();
+        System.out.print("Please, write (again) or (exit): ");
 
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.next();
+        if (input.equalsIgnoreCase("again")) {
+            cell1 = " "; cell2 = " "; cell3 = " ";
+            cell4 = " "; cell5 = " "; cell6 = " ";
+            cell7 = " "; cell8 = " "; cell9 = " ";
+            fillArray();
+            clearScreen();
+            gameName();
+            StartOrInfoOrExit();
+        } else if (input.equalsIgnoreCase("exit")) {
+            exitFromTheWholeProject();
+        } else {
+            invalid("input");
+            rest();
+            if (xWin()) {
+                System.out.println(firstPlayerName.toUpperCase() + " [X] Win!");
+            } else if (oWin()) {
+                System.out.println(secondPlayerName.toUpperCase() + " [O] Win!");
+            } else {
+                System.out.println("Tie!");
+            }
+            againOrExit();
+        }
+    }
 
     public void cellTaken() throws InterruptedException {
         System.out.println();
@@ -326,40 +362,31 @@ public class TicTacToe {
 
 
     public boolean xWin() {
-        if (cell1.equals("X") && cell2.equals("X") && cell3.equals("X") ||
+        return cell1.equals("X") && cell2.equals("X") && cell3.equals("X") ||
                 cell4.equals("X") && cell5.equals("X") && cell6.equals("X") ||
                 cell7.equals("X") && cell8.equals("X") && cell9.equals("X") ||
                 cell1.equals("X") && cell4.equals("X") && cell7.equals("X") ||
                 cell2.equals("X") && cell5.equals("X") && cell8.equals("X") ||
                 cell3.equals("X") && cell6.equals("X") && cell9.equals("X") ||
                 cell1.equals("X") && cell5.equals("X") && cell9.equals("X") ||
-                cell3.equals("X") && cell5.equals("X") && cell7.equals("X")) {
-            return true;
-        } else {
-            return false;
-        }
+                cell3.equals("X") && cell5.equals("X") && cell7.equals("X");
     }
 
     public boolean oWin() {
-        if (cell1.equals("O") && cell2.equals("O") && cell3.equals("O") ||
+        return cell1.equals("O") && cell2.equals("O") && cell3.equals("O") ||
                 cell4.equals("O") && cell5.equals("O") && cell6.equals("O") ||
                 cell7.equals("O") && cell8.equals("O") && cell9.equals("O") ||
                 cell1.equals("O") && cell4.equals("O") && cell7.equals("O") ||
                 cell2.equals("O") && cell5.equals("O") && cell8.equals("O") ||
                 cell3.equals("O") && cell6.equals("O") && cell9.equals("O") ||
                 cell1.equals("O") && cell5.equals("O") && cell9.equals("O") ||
-                cell3.equals("O") && cell5.equals("O") && cell7.equals("O")) {
-            return true;
-
-        } else {
-            return false;
-        }
+                cell3.equals("O") && cell5.equals("O") && cell7.equals("O");
     }
 
     public int tie() {
         int tie = 0;
-        for (int i = 0; i < inputCellArray.length; i++) {
-            if (inputCellArray[i] != 0) {
+        for (int value : inputCellArray) {
+            if (value != 0) {
                 tie++;
             }
         }
