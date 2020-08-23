@@ -301,7 +301,10 @@ public class TicTacToe {
             fillArray();
             clearScreen();
             gameName();
-            StartOrInfoOrExit();
+            firstVsSecond();
+            printGrid();
+            //System.out.print("[again]\n");
+            firstPlayerInput();
         } else if (input.equalsIgnoreCase("exit")) {
             exitFromTheWholeProject();
         } else {
