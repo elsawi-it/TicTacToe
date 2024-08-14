@@ -2,4 +2,4 @@
 
 > Check out how does it look?
 >
-> https://www.youtube.com/watch?v=SShqCxnUPnI
+> https://bit.ly/4doAsGc
